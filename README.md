@@ -11,7 +11,8 @@
 ## Commands
 Command  | Usage | Aliases | Permission | Description
 ------------ | ------------ | ------------- | ------------ | ------------ 
-`gatelockdown` | `gatelockdown` `<yes/no>` `<time>` | `gl` | `mc.gatelockdown` | With this command you can lock/unlock gates yourself. `<yes/no>` determines if you want that a broadcast appears to everyone and C.A.S.S.I.E announces it. `time` allows you to lock/unlock the gates for a certain amount of time. 
+`gatelockdown` | `gatelockdown` `<yes/no>` `<time>` | `gl` | `mc.gatelockdown` | With this command you can lock/unlock gates yourself. `<yes/no>` determines if you want that a broadcast appears to everyone and C.A.S.S.I.E announces it. `time` allows you to lock/unlock the gates for a certain amount of time.
+`teslagatedisable` | `teslagatedisable` | `tgd` | `mc.teslagatedisable` | This command allows you to enable/disable all tesla gates on the map.
 
 ## Installation
 1. [Install Synapse](https://github.com/SynapseSL/Synapse/wiki#hosting-guides)
