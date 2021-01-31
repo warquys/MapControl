@@ -17,7 +17,7 @@ namespace MapControl.Commands
         )]
     public class teslaGateDisable : ISynapseCommand
     {
-        public static bool teslaState = true;
+        public static bool TeslaState = true;
         public CommandResult Execute(CommandContext context)
         {
             var result = new CommandResult();
@@ -29,16 +29,16 @@ namespace MapControl.Commands
                 return result;
             }
 
-            if (teslaState && Plugin.Config.teslaGatesEnabled)
+            if (TeslaState && Plugin.Config.TeslaGatesEnabled)
             {
-                teslaState = false;
+                TeslaState = false;
                 result.State = CommandResultState.Ok;
                 result.Message = "Tesla gates disabled!";
                 return result;
             }
-            else if (teslaState == false && Plugin.Config.teslaGatesEnabled)
+            else if (TeslaState == false && Plugin.Config.TeslaGatesEnabled)
             {
-                teslaState = true;
+                TeslaState = true;
                 result.State = CommandResultState.Ok;
                 result.Message = "Tesla gates enabled!";
                 return result;

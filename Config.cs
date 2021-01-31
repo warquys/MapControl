@@ -12,22 +12,32 @@ namespace MapControl
     {
 
         [Description("Is this plugin enabled?")]
-        public bool isEnabled = true;
+        public bool IsEnabled = true;
 
         [Description("Are tesla gates enabled?")]
-        public bool teslaGatesEnabled = true;
+        public bool TeslaGatesEnabled = true;
 
         [Description("Should random tesla gate timeouts happen?")]
-        public bool randomTeslaTimeouts = true;
+        public bool RandomTeslaTimeouts = true;
 
-        [Description("Should Gate A and Gate B sometimes be randomly broken?")]
-        public bool randomGatelockdowns = true;
+        [Description("Should Gate A and Gate B sometimes be randomly locked?")]
+        public bool RandomGatelockdowns = true;
 
         [Description("Should Gate A and Gate B be locked at the beginning of the round?")]
-        public bool roundStartGatelockdown = true;
+        public bool RoundStartGatelockdown = true;
+
+        [Description("Should Tesla gates be disabled if the player has a certain item in his inventory?")]
+        public bool TeslaGateBypassItemsEnabled = true;
+
+        [Description("Which items in the inventory of a player should not trigger tesla gates?")]
+        public List<int> TeslaBypassItems = new List<int>()
+        {
+            11,
+            19
+        };
 
         [Description("Which classes should not trigger tesla gates?")]
-        public List<int> teslaBypassClasses = new List<int>()
+        public List<int> TeslaBypassClasses = new List<int>()
         {
             4,
             6,
@@ -38,10 +48,10 @@ namespace MapControl
         };
 
         [Description("How long should Gate A and Gate B be locked at the beginning of the round?")]
-        public float roundStartGatelockdownDuration = 120f;
+        public float RoundStartGatelockdownDuration = 120f;
 
         [Description("How long should the Gatelockdown at the beginning of the round should be delayed? (Important to prevent broadcast spam at the start of the round)")]
-        public float roundStartGatelockdownDelay = 10f;
+        public float RoundStartGatelockdownDelay = 10f;
 
         [Description("Should a broadcast be shown when a Gatelockdown happens?")]
         public bool GatelockdownBroadcastEnabled = true;

@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MapControl.Commands.gateLockdown
+namespace MapControl.Commands
 {
     [CommandInformation(
         Name = "gatelockdown",
@@ -45,7 +45,7 @@ namespace MapControl.Commands.gateLockdown
                 {
                     case "yes":
                         Gatelockdown(true);
-                        if (EventHandlers.isGateLocked == true)
+                        if (EventHandlers.IsGateLocked)
                             result.Message = "Gates successfully unlocked with a broadcast!";
                         else
                             result.Message = "Gates successfully unlocked with  a broadcast!";
@@ -53,7 +53,7 @@ namespace MapControl.Commands.gateLockdown
                         return result;
                     case "no":
                         Gatelockdown(false);
-                        if (EventHandlers.isGateLocked == true)
+                        if (EventHandlers.IsGateLocked)
                             result.Message = "Gates successfully unlocked without a broadcast!";
                         else
                             result.Message = "Gates successfully unlocked without a broadcast!";
@@ -80,16 +80,16 @@ namespace MapControl.Commands.gateLockdown
                     switch (context.Arguments.Array[1].ToLower())
                     {
                         case "yes":
-                            EventHandlers.coroutines.Add(Timing.RunCoroutine(timedGatelockdown(true, time)));
-                            if (EventHandlers.isGateLocked == true)
+                            EventHandlers.Coroutines.Add(Timing.RunCoroutine(timedGatelockdown(true, time)));
+                            if (EventHandlers.IsGateLocked)
                                 result.Message = "Gates successfully unlocked with a broadcast!";
                             else
                                 result.Message = "Gates successfully unlocked with  a broadcast!";
                             result.State = CommandResultState.Ok;
                             return result;
                         case "no":
-                            EventHandlers.coroutines.Add(Timing.RunCoroutine(timedGatelockdown(false, time)));
-                            if (EventHandlers.isGateLocked == true)
+                            EventHandlers.Coroutines.Add(Timing.RunCoroutine(timedGatelockdown(false, time)));
+                            if (EventHandlers.IsGateLocked)
                                 result.Message = "Gates successfully unlocked without a broadcast!";
                             else
                                 result.Message = "Gates successfully unlocked without a broadcast!";
@@ -114,12 +114,12 @@ namespace MapControl.Commands.gateLockdown
 
         public static void Gatelockdown(bool wannaBroadcastBro)
         {
-            if (wannaBroadcastBro && EventHandlers.isGateLocked == false)
+            if (wannaBroadcastBro && !EventHandlers.IsGateLocked)
             {
                 Map.Get.SendBroadcast(Plugin.Config.BroadcastDuration, Plugin.Config.GatelockdownBroadcast);
                 Map.Get.Cassie(Plugin.Config.GatelockdownCassie);
             } 
-            if (wannaBroadcastBro && EventHandlers.isGateLocked == true)
+            if (wannaBroadcastBro && EventHandlers.IsGateLocked)
             {
                 Map.Get.SendBroadcast(Plugin.Config.BroadcastDuration, Plugin.Config.GatelockdownEndingBroadcast);
                 Map.Get.Cassie(Plugin.Config.GatelockdownEndingCassie);
@@ -128,9 +128,9 @@ namespace MapControl.Commands.gateLockdown
             DoorVariant gateA = DoorNametagExtension.NamedDoors["GATE_A"].TargetDoor;
             DoorVariant gateB = DoorNametagExtension.NamedDoors["GATE_B"].TargetDoor;
 
-            if (EventHandlers.isGateLocked == false)
+            if (EventHandlers.IsGateLocked == false)
             {
-                EventHandlers.isGateLocked = true;
+                EventHandlers.IsGateLocked = true;
                 gateA.NetworkTargetState = false;
                 gateA.NetworkActiveLocks = 1;
 
@@ -139,7 +139,7 @@ namespace MapControl.Commands.gateLockdown
             }
             else
             {
-                EventHandlers.isGateLocked = false;
+                EventHandlers.IsGateLocked = false;
                 gateA.NetworkTargetState = true;
                 gateA.NetworkActiveLocks = 0;
 
@@ -151,12 +151,12 @@ namespace MapControl.Commands.gateLockdown
 
         public static IEnumerator<float> timedGatelockdown(bool wannaBroadcastBro, int time)
         {
-            if (wannaBroadcastBro && EventHandlers.isGateLocked == false)
+            if (wannaBroadcastBro && !EventHandlers.IsGateLocked)
             {
                 Map.Get.SendBroadcast(Plugin.Config.BroadcastDuration, Plugin.Config.GatelockdownBroadcast);
                 Map.Get.Cassie(Plugin.Config.GatelockdownCassie);
             }
-            if (wannaBroadcastBro && EventHandlers.isGateLocked == true)
+            if (wannaBroadcastBro && EventHandlers.IsGateLocked)
             {
                 Map.Get.SendBroadcast(Plugin.Config.BroadcastDuration, Plugin.Config.GatelockdownEndingBroadcast);
                 Map.Get.Cassie(Plugin.Config.GatelockdownEndingCassie);
@@ -165,9 +165,9 @@ namespace MapControl.Commands.gateLockdown
             DoorVariant gateA = DoorNametagExtension.NamedDoors["GATE_A"].TargetDoor;
             DoorVariant gateB = DoorNametagExtension.NamedDoors["GATE_B"].TargetDoor;
 
-            if (EventHandlers.isGateLocked == false)
+            if (!EventHandlers.IsGateLocked)
             {
-                EventHandlers.isGateLocked = true;
+                EventHandlers.IsGateLocked = true;
                 gateA.NetworkTargetState = false;
                 gateA.NetworkActiveLocks = 1;
 
@@ -176,7 +176,7 @@ namespace MapControl.Commands.gateLockdown
             }
             else
             {
-                EventHandlers.isGateLocked = false;
+                EventHandlers.IsGateLocked = false;
                 gateA.NetworkTargetState = true;
                 gateA.NetworkActiveLocks = 0;
 
@@ -186,20 +186,20 @@ namespace MapControl.Commands.gateLockdown
 
             yield return Timing.WaitForSeconds(time);
 
-            if (wannaBroadcastBro && EventHandlers.isGateLocked == false)
+            if (wannaBroadcastBro && !EventHandlers.IsGateLocked)
             {
                 Map.Get.SendBroadcast(Plugin.Config.BroadcastDuration, Plugin.Config.GatelockdownBroadcast);
                 Map.Get.Cassie(Plugin.Config.GatelockdownCassie);
             }
-            if (wannaBroadcastBro && EventHandlers.isGateLocked == true)
+            if (wannaBroadcastBro && EventHandlers.IsGateLocked)
             {
                 Map.Get.SendBroadcast(Plugin.Config.BroadcastDuration, Plugin.Config.GatelockdownEndingBroadcast);
                 Map.Get.Cassie(Plugin.Config.GatelockdownEndingCassie);
             }
 
-            if (EventHandlers.isGateLocked == false)
+            if (!EventHandlers.IsGateLocked)
             {
-                EventHandlers.isGateLocked = true;
+                EventHandlers.IsGateLocked = true;
                 gateA.NetworkTargetState = false;
                 gateA.NetworkActiveLocks = 1;
 
@@ -208,7 +208,7 @@ namespace MapControl.Commands.gateLockdown
             }
             else
             {
-                EventHandlers.isGateLocked = false;
+                EventHandlers.IsGateLocked = false;
                 gateA.NetworkTargetState = true;
                 gateA.NetworkActiveLocks = 0;
 
