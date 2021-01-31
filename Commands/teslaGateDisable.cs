@@ -15,7 +15,7 @@ namespace MapControl.Commands
         Platforms = new[] { Platform.RemoteAdmin },
         Usage = ".teslagatedisable"
         )]
-    public class teslaGateDisable : ISynapseCommand
+    public class TeslaGateDisable : ISynapseCommand
     {
         public static bool TeslaState = true;
         public CommandResult Execute(CommandContext context)

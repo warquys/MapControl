@@ -38,7 +38,7 @@ namespace MapControl.Handlers
                     if (Plugin.Config.TeslaBypassItems.Contains(items.ID))
                         ev.Trigger = false;
                     
-                if (!teslaGateDisable.TeslaState)
+                if (!TeslaGateDisable.TeslaState)
                     ev.Trigger = false;
             }
         }

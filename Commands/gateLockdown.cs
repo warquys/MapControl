@@ -19,7 +19,7 @@ namespace MapControl.Commands
         Platforms = new[] { Platform.RemoteAdmin },
         Usage = "gatelockdown <yes/no> <time>"
         )]
-    public class gateLockdown : ISynapseCommand
+    public class GateLockdown : ISynapseCommand
     {
         public CommandResult Execute(CommandContext context)
         {
