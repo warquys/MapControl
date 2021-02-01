@@ -22,14 +22,15 @@ Command  | Usage | Aliases | Permission | Description
 ## Config
 Name  | Type | Default | Description
 ------------ | ------------ | ------------- | ------------ 
-`isEnabled` | Boolean | true | Is this plugin enabled?
-`teslaGatesEnabled` | Boolean | true | Are tesla gates enabled?
-`randomTeslaTimeouts` | Boolean | true | Should random tesla gate timeouts happen?
-`randomGatelockdowns` | Boolean | true | Should Gate A and Gate B sometimes be randomly locked?
-`roundStartGatelockdown` | Boolean | true | Should Gate A and Gate B be locked at the beginning of the round?
-`teslaBypassClasses` | List | 4, 6, 11, 12, 13, 15 | Which classes should not trigger tesla gates? (RoleIDs)
-`roundStartGatelockdownDuration` | Float | 120f | How long should Gate A and Gate B be locked at the beginning of the round?
-`roundStartGatelockdownDelay` | Float | 10f | How long should the Gatelockdown at the beginning of the round should be delayed? (Important to prevent broadcast spam at the start of the round)
+`IsEnabled` | Boolean | true | Is this plugin enabled?
+`TeslaGatesEnabled` | Boolean | true | Are tesla gates enabled?
+`RandomTeslaTimeouts` | Boolean | true | Should random tesla gate timeouts happen?
+`RandomGatelockdowns` | Boolean | true | Should Gate A and Gate B sometimes be randomly locked?
+`RoundStartGatelockdown` | Boolean | true | Should Gate A and Gate B be locked at the beginning of the round?
+`TeslaBypassItems` | List | 11, 19 | Which classes should not trigger tesla gates? (RoleIDs)
+`TeslaBypassClasses` | List | 4, 6, 11, 12, 13, 15 | Which items in the inventory of a player should not trigger tesla gates? (Item IDs)
+`RoundStartGatelockdownDuration` | Float | 120f | How long should Gate A and Gate B be locked at the beginning of the round?
+`RoundStartGatelockdownDelay` | Float | 10f | How long should the Gatelockdown at the beginning of the round should be delayed? (Important to prevent broadcast spam at the start of the round)
 `GatelockdownBroadcastEnabled` | Boolean | true | Should a broadcast be shown when a Gatelockdown happens?
 `GatelockdownCassieEnabled` | Boolean | true | Should a C.A.S.S.I.E announcement be shown when a Gatelockdown happens?
 `TeslaTimeoutBroadcastEnabled` | Boolean | true | Should a broadcast be shown when a Tesla timeout happens?
