@@ -17,7 +17,6 @@ C:\Users\Void\source\repos\MapControl\MapControl\bin\Release\0Harmony.xml
 C:\Users\Void\source\repos\MapControl\MapControl\bin\Release\LiteDB.xml
 C:\Users\Void\source\repos\MapControl\MapControl\bin\Release\System.Runtime.CompilerServices.Unsafe.xml
 C:\Users\Void\source\repos\MapControl\MapControl\bin\Release\YamlDotNet.xml
-C:\Users\Void\source\repos\MapControl\MapControl\obj\Release\MapControl.csprojAssemblyReference.cache
 C:\Users\Void\source\repos\MapControl\MapControl\obj\Release\MapControl.csproj.CoreCompileInputs.cache
 C:\Users\Void\source\repos\MapControl\MapControl\obj\Release\MapControl.csproj.CopyComplete
 C:\Users\Void\source\repos\MapControl\MapControl\obj\Release\MapControl.dll
