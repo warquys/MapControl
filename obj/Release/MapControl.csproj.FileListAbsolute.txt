@@ -21,3 +21,4 @@ C:\Users\Void\source\repos\MapControl\MapControl\obj\Release\MapControl.csproj.C
 C:\Users\Void\source\repos\MapControl\MapControl\obj\Release\MapControl.csproj.CopyComplete
 C:\Users\Void\source\repos\MapControl\MapControl\obj\Release\MapControl.dll
 C:\Users\Void\source\repos\MapControl\MapControl\obj\Release\MapControl.pdb
+C:\Users\Void\source\repos\MapControl\MapControl\obj\Release\MapControl.csprojAssemblyReference.cache
