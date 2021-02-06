@@ -46,8 +46,8 @@
     <Reference Include="Mirror, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\SynapseSL.2.4.2\lib\net472\Mirror.dll</HintPath>
     </Reference>
-    <Reference Include="Synapse">
-      <HintPath>..\..\..\..\OneDrive\Desktop\Synapse.dll</HintPath>
+    <Reference Include="Synapse, Version=2.4.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SynapseSL.2.4.2\lib\net472\Synapse.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
