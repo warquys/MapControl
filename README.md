@@ -12,7 +12,9 @@ Control your map!
 
 ## Showcase
 
-![Some Information](/assets/info.png)
+![Tesla gate Disabled](/assets/tesladisable.png)
+![Gatelockdown](/assets/gatelockdown1.png)
+![Tesla gate Disabled](/assets/gatelockdown2.png)
 
 ## Installation
 1. [Install Synapse](https://github.com/SynapseSL/Synapse/wiki#hosting-guides)
