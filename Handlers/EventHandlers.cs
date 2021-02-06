@@ -45,13 +45,18 @@ namespace MapControl.Handlers
 
         public void OnRoundBegin()
         {
-            if (Plugin.Config.IsEnabled && Plugin.Config.RoundStartGatelockdown)
-                Timing.CallDelayed(Plugin.Config.RoundStartGatelockdownDelay, () => RoundStartGatelockdown());
-            else if (Plugin.Config.IsEnabled && !Plugin.Config.RoundStartGatelockdown)
-                Coroutines.Add(Timing.RunCoroutine(randomGatelockdown()));
+            if (Plugin.Config.IsEnabled)
+            {
 
-            if (Plugin.Config.RoundStartGatelockdown && Plugin.Config.RandomGatelockdowns)
-                Timing.CallDelayed(Plugin.Config.RoundStartGatelockdownDuration, () => Coroutines.Add(Timing.RunCoroutine(randomGatelockdown())));
+                if (Plugin.Config.RoundStartGatelockdown)
+                    Timing.CallDelayed(Plugin.Config.RoundStartGatelockdownDelay, () => RoundStartGatelockdown());
+                else if (Plugin.Config.IsEnabled && !Plugin.Config.RoundStartGatelockdown)
+                    Coroutines.Add(Timing.RunCoroutine(randomGatelockdown()));
+
+                if (Plugin.Config.RoundStartGatelockdown && Plugin.Config.RandomGatelockdowns)
+                    Timing.CallDelayed(Plugin.Config.RoundStartGatelockdownDuration, () => Coroutines.Add(Timing.RunCoroutine(randomGatelockdown())));
+
+            }
         }
 
         public void OnRoundEnd() => Timing.KillCoroutines(Coroutines.ToArray());
@@ -63,54 +68,62 @@ namespace MapControl.Handlers
 
         public static void RoundStartGatelockdown()
         {
-            if (Plugin.Config.GatelockdownBroadcastEnabled)
-                Map.Get.SendBroadcast(Plugin.Config.BroadcastDuration, Plugin.Config.GatelockdownBroadcast);
+            if (Plugin.Config.IsEnabled)
+            {
 
-            if (Plugin.Config.GatelockdownCassieEnabled)
-                Map.Get.Cassie(Plugin.Config.GatelockdownCassie);
+                if (Plugin.Config.GatelockdownBroadcastEnabled)
+                    Map.Get.SendBroadcast(Plugin.Config.BroadcastDuration, Plugin.Config.GatelockdownBroadcast);
 
-            IsGateLocked = true;
-            DoorVariant gateA = DoorNametagExtension.NamedDoors["GATE_A"].TargetDoor;
-            gateA.NetworkTargetState = false;
-            gateA.NetworkActiveLocks = 1;
+                if (Plugin.Config.GatelockdownCassieEnabled)
+                    Map.Get.Cassie(Plugin.Config.GatelockdownCassie);
 
-            DoorVariant gateB = DoorNametagExtension.NamedDoors["GATE_B"].TargetDoor;
-            gateB.NetworkTargetState = false;
-            gateB.NetworkActiveLocks = 1;
+                IsGateLocked = true;
+                DoorVariant gateA = DoorNametagExtension.NamedDoors["GATE_A"].TargetDoor;
+                gateA.NetworkTargetState = false;
+                gateA.NetworkActiveLocks = 1;
+
+                DoorVariant gateB = DoorNametagExtension.NamedDoors["GATE_B"].TargetDoor;
+                gateB.NetworkTargetState = false;
+                gateB.NetworkActiveLocks = 1;
 
 
-            int time = (int) Plugin.Config.RoundStartGatelockdownDuration;
-            Coroutines.Add(Timing.RunCoroutine(gateUnlock(time)));
+                int time = (int)Plugin.Config.RoundStartGatelockdownDuration;
+                Coroutines.Add(Timing.RunCoroutine(gateUnlock(time)));
+
+            }
         }
 
         public static IEnumerator<float> randomGatelockdown()
         {
-            Random r = new Random();
-            while (true)
+            if (Plugin.Config.IsEnabled)
             {
-                yield return Timing.WaitForSeconds(Plugin.Config.GatelockdownIntervall);
-                int chance = r.Next(Plugin.Config.GatelockdownChance);
-                if(chance <= Plugin.Config.GatelockdownChance)
+                Random r = new Random();
+                while (true)
                 {
-                    if (Plugin.Config.GatelockdownBroadcastEnabled)
-                        Map.Get.SendBroadcast(Plugin.Config.BroadcastDuration, Plugin.Config.GatelockdownBroadcast);
+                    yield return Timing.WaitForSeconds(Plugin.Config.GatelockdownIntervall);
+                    int chance = r.Next(Plugin.Config.GatelockdownChance);
+                    if (chance <= Plugin.Config.GatelockdownChance)
+                    {
+                        if (Plugin.Config.GatelockdownBroadcastEnabled)
+                            Map.Get.SendBroadcast(Plugin.Config.BroadcastDuration, Plugin.Config.GatelockdownBroadcast);
 
-                    if (Plugin.Config.GatelockdownCassieEnabled)
-                        Map.Get.Cassie(Plugin.Config.GatelockdownCassie);
+                        if (Plugin.Config.GatelockdownCassieEnabled)
+                            Map.Get.Cassie(Plugin.Config.GatelockdownCassie);
 
-                    IsGateLocked = true;
-                    DoorVariant gateA = DoorNametagExtension.NamedDoors["GATE_A"].TargetDoor;
-                    gateA.NetworkTargetState = false;
-                    gateA.NetworkActiveLocks = 1;
+                        IsGateLocked = true;
+                        DoorVariant gateA = DoorNametagExtension.NamedDoors["GATE_A"].TargetDoor;
+                        gateA.NetworkTargetState = false;
+                        gateA.NetworkActiveLocks = 1;
 
-                    DoorVariant gateB = DoorNametagExtension.NamedDoors["GATE_B"].TargetDoor;
-                    gateB.NetworkTargetState = false;
-                    gateB.NetworkActiveLocks = 1;
+                        DoorVariant gateB = DoorNametagExtension.NamedDoors["GATE_B"].TargetDoor;
+                        gateB.NetworkTargetState = false;
+                        gateB.NetworkActiveLocks = 1;
 
-                    int time = UnityEngine.Random.Range(Plugin.Config.GatelockdownMinDuration, Plugin.Config.GatelockdownMaxDuration);
-                    Coroutines.Add(Timing.RunCoroutine(gateUnlock(time)));
-                }
+                        int time = UnityEngine.Random.Range(Plugin.Config.GatelockdownMinDuration, Plugin.Config.GatelockdownMaxDuration);
+                        Coroutines.Add(Timing.RunCoroutine(gateUnlock(time)));
+                    }
                     yield return Timing.WaitForOneFrame;
+                }
             }
         }
 
