@@ -34,10 +34,10 @@ namespace MapControl.Handlers
                 if (Plugin.Config.TeslaBypassClasses.Contains(ev.Player.RoleID))
                     ev.Trigger = false;
 
-                foreach (SynapseItem items in ev.Player.Inventory.Items.ToArray())
+                foreach (SynapseItem items in ev.Player.Inventory.Items)
                     if (Plugin.Config.TeslaBypassItems.Contains(items.ID))
                         ev.Trigger = false;
-                    
+
                 if (!TeslaGateDisable.TeslaState)
                     ev.Trigger = false;
             }
@@ -78,13 +78,11 @@ namespace MapControl.Handlers
                     Map.Get.Cassie(Plugin.Config.GatelockdownCassie);
 
                 IsGateLocked = true;
-                DoorVariant gateA = DoorNametagExtension.NamedDoors["GATE_A"].TargetDoor;
-                gateA.NetworkTargetState = false;
-                gateA.NetworkActiveLocks = 1;
+                Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_A).Open = false;
+                Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_A).Locked = true;
 
-                DoorVariant gateB = DoorNametagExtension.NamedDoors["GATE_B"].TargetDoor;
-                gateB.NetworkTargetState = false;
-                gateB.NetworkActiveLocks = 1;
+                Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_B).Open = false;
+                Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_B).Locked = true;
 
 
                 int time = (int)Plugin.Config.RoundStartGatelockdownDuration;
@@ -111,13 +109,11 @@ namespace MapControl.Handlers
                             Map.Get.Cassie(Plugin.Config.GatelockdownCassie);
 
                         IsGateLocked = true;
-                        DoorVariant gateA = DoorNametagExtension.NamedDoors["GATE_A"].TargetDoor;
-                        gateA.NetworkTargetState = false;
-                        gateA.NetworkActiveLocks = 1;
+                        Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_A).Open = false;
+                        Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_A).Locked = true;
 
-                        DoorVariant gateB = DoorNametagExtension.NamedDoors["GATE_B"].TargetDoor;
-                        gateB.NetworkTargetState = false;
-                        gateB.NetworkActiveLocks = 1;
+                        Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_B).Open = false;
+                        Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_B).Locked = true;
 
                         int time = UnityEngine.Random.Range(Plugin.Config.GatelockdownMinDuration, Plugin.Config.GatelockdownMaxDuration);
                         Coroutines.Add(Timing.RunCoroutine(gateUnlock(time)));
@@ -131,13 +127,11 @@ namespace MapControl.Handlers
         {
             yield return Timing.WaitForSeconds(time);
             IsGateLocked = false;
-            DoorVariant gateA = DoorNametagExtension.NamedDoors["GATE_A"].TargetDoor;
-            DoorVariant gateB = DoorNametagExtension.NamedDoors["GATE_B"].TargetDoor;
-            gateA.NetworkTargetState = true;
-            gateA.NetworkActiveLocks = 0;
+            Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_A).Open = true;
+            Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_A).Locked = false;
 
-            gateB.NetworkTargetState = true;
-            gateB.NetworkActiveLocks = 0;
+            Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_B).Open = true;
+            Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_B).Locked = false;
 
             if (Plugin.Config.GatelockdownBroadcastEnabled)
                 Map.Get.SendBroadcast(Plugin.Config.BroadcastDuration, Plugin.Config.GatelockdownEndingBroadcast);

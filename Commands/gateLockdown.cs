@@ -3,11 +3,7 @@ using MapControl.Handlers;
 using MEC;
 using Synapse.Api;
 using Synapse.Command;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MapControl.Commands
 {
@@ -125,26 +121,24 @@ namespace MapControl.Commands
                 Map.Get.Cassie(Plugin.Config.GatelockdownEndingCassie);
             }
 
-            DoorVariant gateA = DoorNametagExtension.NamedDoors["GATE_A"].TargetDoor;
-            DoorVariant gateB = DoorNametagExtension.NamedDoors["GATE_B"].TargetDoor;
 
-            if (EventHandlers.IsGateLocked == false)
+            if (!EventHandlers.IsGateLocked)
             {
                 EventHandlers.IsGateLocked = true;
-                gateA.NetworkTargetState = false;
-                gateA.NetworkActiveLocks = 1;
+                Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_A).Open = false;
+                Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_A).Locked = true;
 
-                gateB.NetworkTargetState = false;
-                gateB.NetworkActiveLocks = 1;
+                Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_B).Open = false;
+                Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_B).Locked = true;
             }
             else
             {
                 EventHandlers.IsGateLocked = false;
-                gateA.NetworkTargetState = true;
-                gateA.NetworkActiveLocks = 0;
+                Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_A).Open = true;
+                Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_A).Locked = false;
 
-                gateB.NetworkTargetState = true;
-                gateB.NetworkActiveLocks = 0;
+                Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_B).Open = true;
+                Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_B).Locked = false;
             }
             
         }
@@ -162,26 +156,24 @@ namespace MapControl.Commands
                 Map.Get.Cassie(Plugin.Config.GatelockdownEndingCassie);
             }
 
-            DoorVariant gateA = DoorNametagExtension.NamedDoors["GATE_A"].TargetDoor;
-            DoorVariant gateB = DoorNametagExtension.NamedDoors["GATE_B"].TargetDoor;
 
             if (!EventHandlers.IsGateLocked)
             {
                 EventHandlers.IsGateLocked = true;
-                gateA.NetworkTargetState = false;
-                gateA.NetworkActiveLocks = 1;
+                Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_A).Open = false;
+                Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_A).Locked = true;
 
-                gateB.NetworkTargetState = false;
-                gateB.NetworkActiveLocks = 1;
+                Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_B).Open = false;
+                Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_B).Locked = true;
             }
             else
             {
                 EventHandlers.IsGateLocked = false;
-                gateA.NetworkTargetState = true;
-                gateA.NetworkActiveLocks = 0;
+                Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_A).Open = true;
+                Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_A).Locked = false;
 
-                gateB.NetworkTargetState = true;
-                gateB.NetworkActiveLocks = 0;
+                Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_B).Open = true;
+                Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_B).Locked = false;
             }
 
             yield return Timing.WaitForSeconds(time);
@@ -200,20 +192,20 @@ namespace MapControl.Commands
             if (!EventHandlers.IsGateLocked)
             {
                 EventHandlers.IsGateLocked = true;
-                gateA.NetworkTargetState = false;
-                gateA.NetworkActiveLocks = 1;
+                Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_A).Open = false;
+                Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_A).Locked = true;
 
-                gateB.NetworkTargetState = false;
-                gateB.NetworkActiveLocks = 1;
+                Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_B).Open = false;
+                Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_B).Locked = true;
             }
             else
             {
                 EventHandlers.IsGateLocked = false;
-                gateA.NetworkTargetState = true;
-                gateA.NetworkActiveLocks = 0;
+                Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_A).Open = true;
+                Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_A).Locked = false;
 
-                gateB.NetworkTargetState = true;
-                gateB.NetworkActiveLocks = 0;
+                Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_B).Open = true;
+                Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_B).Locked = false;
             }
         }
     }
