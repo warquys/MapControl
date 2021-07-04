@@ -93,7 +93,7 @@ namespace MapControl.Handlers
 
         public static IEnumerator<float> randomGatelockdown()
         {
-            if (Plugin.Config.IsEnabled)
+            if (Plugin.Config.IsEnabled && Plugin.Config.RandomGatelockdowns)
             {
                 Random r = new Random();
                 while (true)

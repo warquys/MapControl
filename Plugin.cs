@@ -14,7 +14,7 @@ namespace MapControl
         LoadPriority = 0,
         Name = "MapControl",
         SynapseMajor = 2,
-        SynapseMinor = 5,
+        SynapseMinor = 6,
         SynapsePatch = 0,
         Version = "1.1"
         )]
