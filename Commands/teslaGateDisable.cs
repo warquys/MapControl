@@ -22,13 +22,6 @@ namespace MapControl.Commands
         {
             var result = new CommandResult();
 
-            if (!context.Player.HasPermission("mc.teslagatedisable"))
-            {
-                result.State = CommandResultState.NoPermission;
-                result.Message = "You do not have enough permission!";
-                return result;
-            }
-
             if (TeslaState && Plugin.Config.TeslaGatesEnabled)
             {
                 TeslaState = false;
@@ -49,10 +42,6 @@ namespace MapControl.Commands
                 result.Message = "You need to have tesla gates enabled in the config for this command to work!";
                 return result;
             }
-
-
-
-
         }
     }
 }

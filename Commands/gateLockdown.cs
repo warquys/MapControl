@@ -13,7 +13,8 @@ namespace MapControl.Commands
         Description = "Start/Stop Gate lockdowns.",
         Permission = "mc.gatelockdown",
         Platforms = new[] { Platform.RemoteAdmin },
-        Usage = "gatelockdown <yes/no> <time>"
+        Usage = "gatelockdown in the AR, yes or not for a broadcast, time optinal and in second",
+        Arguments = new[] { "yes/no", "(time)" }
         )]
     public class GateLockdown : ISynapseCommand
     {
@@ -21,46 +22,16 @@ namespace MapControl.Commands
         {
             var result = new CommandResult();
 
-
-            if (!context.Player.HasPermission("mc.gatelockdown"))
-            {
-                result.State = CommandResultState.NoPermission;
-                result.Message = "You do not have enough permissions!";
-                return result;
-            }
-
             if (context.Arguments.Count < 1)
             {
                 result.State = CommandResultState.Error;
-                result.Message = "Usage: gatelockdown <yes/no> <time>";
+                result.Message = "Usage: gatelockdown <yes/no> (time)";
                 return result;
             }
             else if (context.Arguments.Count == 1)
             {
-                switch (context.Arguments.Array[1].ToLower())
-                {
-                    case "yes":
-                        Gatelockdown(true);
-                        if (EventHandlers.IsGateLocked)
-                            result.Message = "Gates successfully unlocked with a broadcast!";
-                        else
-                            result.Message = "Gates successfully unlocked with  a broadcast!";
-                        result.State = CommandResultState.Ok;
-                        return result;
-                    case "no":
-                        Gatelockdown(false);
-                        if (EventHandlers.IsGateLocked)
-                            result.Message = "Gates successfully unlocked without a broadcast!";
-                        else
-                            result.Message = "Gates successfully unlocked without a broadcast!";
-                        result.State = CommandResultState.Ok;
-                        return result;
-                    default:
-                        result.State = CommandResultState.Error;
-                        result.Message = "Usage: gatelockdown <yes/no> <time>";
-                        return result;
-                }
-
+                ParseArguments(context.Arguments.Array[1], -1, result);
+                return result;
             }
             else if (context.Arguments.Count == 2)
             {
@@ -73,139 +44,101 @@ namespace MapControl.Commands
                 }
                 else
                 {
-                    switch (context.Arguments.Array[1].ToLower())
-                    {
-                        case "yes":
-                            EventHandlers.Coroutines.Add(Timing.RunCoroutine(timedGatelockdown(true, time)));
-                            if (EventHandlers.IsGateLocked)
-                                result.Message = "Gates successfully unlocked with a broadcast!";
-                            else
-                                result.Message = "Gates successfully unlocked with  a broadcast!";
-                            result.State = CommandResultState.Ok;
-                            return result;
-                        case "no":
-                            EventHandlers.Coroutines.Add(Timing.RunCoroutine(timedGatelockdown(false, time)));
-                            if (EventHandlers.IsGateLocked)
-                                result.Message = "Gates successfully unlocked without a broadcast!";
-                            else
-                                result.Message = "Gates successfully unlocked without a broadcast!";
-                            result.State = CommandResultState.Ok;
-                            return result;
-                            default:
-                        result.State = CommandResultState.Error;
-                        result.Message = "Usage: gatelockdown <yes/no> <time>";
-                        return result;
-                    }
+                    ParseArguments(context.Arguments.Array[1], time, result);
+                    return result;
                 }
-
             }
             else
             {
                 result.State = CommandResultState.Error;
-                result.Message = "Usage: gatelockdown <yes/no> <time>";
+                result.Message = "Usage: gatelockdown <yes/no> (time)";
                 return result;
             }
         }
 
-
-        public static void Gatelockdown(bool wannaBroadcastBro)
+        public void ParseArguments(string arg, int time, CommandResult result)
         {
-            if (wannaBroadcastBro && !EventHandlers.IsGateLocked)
+            switch (arg.ToLower())
             {
-                Map.Get.SendBroadcast(Plugin.Config.BroadcastDuration, Plugin.Config.GatelockdownBroadcast);
-                Map.Get.Cassie(Plugin.Config.GatelockdownCassie);
-            } 
-            if (wannaBroadcastBro && EventHandlers.IsGateLocked)
-            {
-                Map.Get.SendBroadcast(Plugin.Config.BroadcastDuration, Plugin.Config.GatelockdownEndingBroadcast);
-                Map.Get.Cassie(Plugin.Config.GatelockdownEndingCassie);
+                case "yes":
+                    result.State = CommandResultState.Ok;
+
+                    if (time > 0)
+                        EventHandlers.Coroutines.Add(Timing.RunCoroutine(TimedGatelockdown(true, time)));
+                    else
+                        Gatelockdown(true);
+
+                    if (EventHandlers.IsGateLocked)
+                        result.Message = "Gates successfully unlocked with a broadcast!";
+                    else
+                        result.Message = "Gates successfully unlocked with  a broadcast!";
+
+                    break;
+                case "no":
+                    result.State = CommandResultState.Ok;
+
+                    if (time > 0)
+                        EventHandlers.Coroutines.Add(Timing.RunCoroutine(TimedGatelockdown(false, time)));
+                    else
+                        Gatelockdown(true);
+
+                    if (EventHandlers.IsGateLocked)
+                        result.Message = "Gates successfully unlocked without a broadcast!";
+                    else
+                        result.Message = "Gates successfully unlocked without a broadcast!";
+
+                    break;
+                default:
+                    result.State = CommandResultState.Error;
+                    result.Message = "Usage: gatelockdown <yes/no> (time)";
+                    break;
             }
-
-
-            if (!EventHandlers.IsGateLocked)
-            {
-                EventHandlers.IsGateLocked = true;
-                Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_A).Open = false;
-                Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_A).Locked = true;
-
-                Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_B).Open = false;
-                Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_B).Locked = true;
-            }
-            else
-            {
-                EventHandlers.IsGateLocked = false;
-                Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_A).Open = true;
-                Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_A).Locked = false;
-
-                Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_B).Open = true;
-                Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_B).Locked = false;
-            }
-            
         }
 
-        public static IEnumerator<float> timedGatelockdown(bool wannaBroadcastBro, int time)
+        public void Gatelockdown(bool wannaBroadcastBro)
         {
-            if (wannaBroadcastBro && !EventHandlers.IsGateLocked)
-            {
-                Map.Get.SendBroadcast(Plugin.Config.BroadcastDuration, Plugin.Config.GatelockdownBroadcast);
-                Map.Get.Cassie(Plugin.Config.GatelockdownCassie);
-            }
-            if (wannaBroadcastBro && EventHandlers.IsGateLocked)
-            {
-                Map.Get.SendBroadcast(Plugin.Config.BroadcastDuration, Plugin.Config.GatelockdownEndingBroadcast);
-                Map.Get.Cassie(Plugin.Config.GatelockdownEndingCassie);
-            }
+            if (wannaBroadcastBro)
+                SendWarnBroadcast();
 
-
-            if (!EventHandlers.IsGateLocked)
-            {
-                EventHandlers.IsGateLocked = true;
-                Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_A).Open = false;
-                Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_A).Locked = true;
-
-                Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_B).Open = false;
-                Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_B).Locked = true;
-            }
+            if (EventHandlers.IsGateLocked)
+                Plugin.UnlockGate();
             else
-            {
-                EventHandlers.IsGateLocked = false;
-                Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_A).Open = true;
-                Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_A).Locked = false;
+                Plugin.LockGate();
+        }
 
-                Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_B).Open = true;
-                Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_B).Locked = false;
-            }
+        public IEnumerator<float> TimedGatelockdown(bool wannaBroadcastBro, int time)
+        {
+            if (wannaBroadcastBro)
+                SendWarnBroadcast();
+
+
+            if (EventHandlers.IsGateLocked)
+                Plugin.UnlockGate();
+            else
+                Plugin.LockGate();
 
             yield return Timing.WaitForSeconds(time);
 
-            if (wannaBroadcastBro && !EventHandlers.IsGateLocked)
+            if (wannaBroadcastBro)
+                SendWarnBroadcast();
+
+            if (EventHandlers.IsGateLocked)
+                Plugin.UnlockGate();
+            else
+                Plugin.LockGate();
+        }
+
+        public void SendWarnBroadcast()
+        {
+            if (EventHandlers.IsGateLocked)
             {
-                Map.Get.SendBroadcast(Plugin.Config.BroadcastDuration, Plugin.Config.GatelockdownBroadcast);
-                Map.Get.Cassie(Plugin.Config.GatelockdownCassie);
-            }
-            if (wannaBroadcastBro && EventHandlers.IsGateLocked)
-            {
-                Map.Get.SendBroadcast(Plugin.Config.BroadcastDuration, Plugin.Config.GatelockdownEndingBroadcast);
+                Map.Get.SendBroadcast(Plugin.Config.BroadcastDuration, Plugin.PluginTranslation.ActiveTranslation.GatelockdownEndingBroadcast);
                 Map.Get.Cassie(Plugin.Config.GatelockdownEndingCassie);
-            }
-
-            if (!EventHandlers.IsGateLocked)
-            {
-                EventHandlers.IsGateLocked = true;
-                Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_A).Open = false;
-                Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_A).Locked = true;
-
-                Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_B).Open = false;
-                Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_B).Locked = true;
             }
             else
             {
-                EventHandlers.IsGateLocked = false;
-                Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_A).Open = true;
-                Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_A).Locked = false;
-
-                Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_B).Open = true;
-                Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_B).Locked = false;
+                Map.Get.SendBroadcast(Plugin.Config.BroadcastDuration, Plugin.PluginTranslation.ActiveTranslation.GatelockdownBroadcast);
+                Map.Get.Cassie(Plugin.Config.GatelockdownCassie);
             }
         }
     }

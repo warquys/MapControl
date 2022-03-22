@@ -1,0 +1,16 @@
+H:\Dev\SCP SL\Synapse\MapControl\bin\Debug\MapControl.dll
+H:\Dev\SCP SL\Synapse\MapControl\bin\Debug\MapControl.pdb
+H:\Dev\SCP SL\Synapse\MapControl\bin\Debug\Assembly-CSharp-firstpass.dll
+H:\Dev\SCP SL\Synapse\MapControl\bin\Debug\Assembly-CSharp.dll
+H:\Dev\SCP SL\Synapse\MapControl\bin\Debug\Mirror.dll
+H:\Dev\SCP SL\Synapse\MapControl\bin\Debug\Synapse.dll
+H:\Dev\SCP SL\Synapse\MapControl\bin\Debug\UnityEngine.CoreModule.dll
+H:\Dev\SCP SL\Synapse\MapControl\bin\Debug\UnityEngine.dll
+H:\Dev\SCP SL\Synapse\MapControl\bin\Debug\UnityEngine.PhysicsModule.dll
+H:\Dev\SCP SL\Synapse\MapControl\bin\Debug\System.Memory.dll
+H:\Dev\SCP SL\Synapse\MapControl\bin\Debug\System.Buffers.dll
+H:\Dev\SCP SL\Synapse\MapControl\obj\Debug\MapControl.csproj.AssemblyReference.cache
+H:\Dev\SCP SL\Synapse\MapControl\obj\Debug\MapControl.csproj.CoreCompileInputs.cache
+H:\Dev\SCP SL\Synapse\MapControl\obj\Debug\MapControl.csproj.CopyComplete
+H:\Dev\SCP SL\Synapse\MapControl\obj\Debug\MapControl.dll
+H:\Dev\SCP SL\Synapse\MapControl\obj\Debug\MapControl.pdb

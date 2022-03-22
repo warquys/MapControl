@@ -1,14 +1,10 @@
-﻿using Interactables.Interobjects.DoorUtils;
-using MapControl.Commands;
+﻿using MapControl.Commands;
 using MEC;
 using Synapse;
 using Synapse.Api;
 using Synapse.Api.Items;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MapControl.Handlers
 {
@@ -51,10 +47,10 @@ namespace MapControl.Handlers
                 if (Plugin.Config.RoundStartGatelockdown)
                     Timing.CallDelayed(Plugin.Config.RoundStartGatelockdownDelay, () => RoundStartGatelockdown());
                 else if (Plugin.Config.IsEnabled && !Plugin.Config.RoundStartGatelockdown)
-                    Coroutines.Add(Timing.RunCoroutine(randomGatelockdown()));
+                    Coroutines.Add(Timing.RunCoroutine(RandomGatelockdown()));
 
                 if (Plugin.Config.RoundStartGatelockdown && Plugin.Config.RandomGatelockdowns)
-                    Timing.CallDelayed(Plugin.Config.RoundStartGatelockdownDuration, () => Coroutines.Add(Timing.RunCoroutine(randomGatelockdown())));
+                    Timing.CallDelayed(Plugin.Config.RoundStartGatelockdownDuration, () => Coroutines.Add(Timing.RunCoroutine(RandomGatelockdown())));
 
             }
         }
@@ -72,26 +68,20 @@ namespace MapControl.Handlers
             {
 
                 if (Plugin.Config.GatelockdownBroadcastEnabled)
-                    Map.Get.SendBroadcast(Plugin.Config.BroadcastDuration, Plugin.Config.GatelockdownBroadcast);
+                    Map.Get.SendBroadcast(Plugin.Config.BroadcastDuration, Plugin.PluginTranslation.ActiveTranslation.GatelockdownBroadcast);
 
                 if (Plugin.Config.GatelockdownCassieEnabled)
                     Map.Get.Cassie(Plugin.Config.GatelockdownCassie);
 
-                IsGateLocked = true;
-                Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_A).Open = false;
-                Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_A).Locked = true;
-
-                Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_B).Open = false;
-                Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_B).Locked = true;
-
+                Plugin.LockGate();
 
                 int time = (int)Plugin.Config.RoundStartGatelockdownDuration;
-                Coroutines.Add(Timing.RunCoroutine(gateUnlock(time)));
+                Coroutines.Add(Timing.RunCoroutine(GateUnlock(time)));
 
             }
         }
 
-        public static IEnumerator<float> randomGatelockdown()
+        public static IEnumerator<float> RandomGatelockdown()
         {
             if (Plugin.Config.IsEnabled && Plugin.Config.RandomGatelockdowns)
             {
@@ -103,38 +93,29 @@ namespace MapControl.Handlers
                     if (chance <= Plugin.Config.GatelockdownChance)
                     {
                         if (Plugin.Config.GatelockdownBroadcastEnabled)
-                            Map.Get.SendBroadcast(Plugin.Config.BroadcastDuration, Plugin.Config.GatelockdownBroadcast);
+                            Map.Get.SendBroadcast(Plugin.Config.BroadcastDuration, Plugin.PluginTranslation.ActiveTranslation.GatelockdownBroadcast);
 
                         if (Plugin.Config.GatelockdownCassieEnabled)
                             Map.Get.Cassie(Plugin.Config.GatelockdownCassie);
 
-                        IsGateLocked = true;
-                        Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_A).Open = false;
-                        Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_A).Locked = true;
-
-                        Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_B).Open = false;
-                        Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_B).Locked = true;
+                        Plugin.LockGate();
 
                         int time = UnityEngine.Random.Range(Plugin.Config.GatelockdownMinDuration, Plugin.Config.GatelockdownMaxDuration);
-                        Coroutines.Add(Timing.RunCoroutine(gateUnlock(time)));
+                        Coroutines.Add(Timing.RunCoroutine(GateUnlock(time)));
                     }
                     yield return Timing.WaitForOneFrame;
                 }
             }
         }
 
-        public static IEnumerator<float> gateUnlock(int time)
+        public static IEnumerator<float> GateUnlock(int time)
         {
             yield return Timing.WaitForSeconds(time);
-            IsGateLocked = false;
-            Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_A).Open = true;
-            Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_A).Locked = false;
 
-            Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_B).Open = true;
-            Map.Get.GetDoor(Synapse.Api.Enum.DoorType.Gate_B).Locked = false;
+            Plugin.UnlockGate();
 
             if (Plugin.Config.GatelockdownBroadcastEnabled)
-                Map.Get.SendBroadcast(Plugin.Config.BroadcastDuration, Plugin.Config.GatelockdownEndingBroadcast);
+                Map.Get.SendBroadcast(Plugin.Config.BroadcastDuration, Plugin.PluginTranslation.ActiveTranslation.GatelockdownEndingBroadcast);
 
             if (Plugin.Config.GatelockdownCassieEnabled)
                 Map.Get.Cassie(Plugin.Config.GatelockdownEndingCassie);

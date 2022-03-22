@@ -26,6 +26,18 @@ namespace MapControl
         [Description("Should Gate A and Gate B be locked at the beginning of the round?")]
         public bool RoundStartGatelockdown { get; set; } = true;
 
+        [Description("What should the normal Gatelockdown C.A.S.S.I.E announcement show?")]
+        public string GatelockdownCassie { get; set; } = "The gates to surface have been locked down";
+
+        [Description("What should the normal Tesla Timout C.A.S.S.I.E announcement show?")]
+        public string TeslaTimeoutCassie { get; set; } = "The facility tesla gate. are disabled";
+
+        [Description("What should the normal Gatelockdown C.A.S.S.I.E announcement show?")]
+        public string GatelockdownEndingCassie { get; set; } = "The gates to surface are no longer locked down";
+
+        [Description("Should open Gate A and Gate B after a locked ?")]
+        public bool GatelockdownOpen { get; set; } = true;
+
         [Description("Should Tesla gates be disabled if the player has a certain item in his inventory?")]
         public bool TeslaGateBypassItemsEnabled { get; set; } = true;
 
@@ -64,27 +76,6 @@ namespace MapControl
 
         [Description("Should a C.A.S.S.I.E announcement be shown when a Tesla timeout happens?")]
         public bool TeslaTimeoutCassieEnabled { get; set; } = true;
-
-        [Description("What should the normal Gatelockdown Broadcast show?")]
-        public string GatelockdownBroadcast { get; set; } = "<b>The gates to surface have been locked down!</b>";
-
-        [Description("What should the normal Gatelockdown C.A.S.S.I.E announcement show?")]
-        public string GatelockdownCassie { get; set; } = "The gates to surface have been locked down";
-
-        [Description("What should the normal Gatelockdown Broadcast show when the gates are being unlocked?")]
-        public string GatelockdownEndingBroadcast { get; set; } = "<b>The gates to surface are no longer locked down!</b>";
-
-        [Description("What should the normal Gatelockdown C.A.S.S.I.E announcement show?")]
-        public string GatelockdownEndingCassie { get; set; } = "The gates to surface are no longer locked down";
-
-        [Description("What should the normal Tesla Timeout Broadcast show?")]
-        public string TeslaTimeoutBroadcast { get; set; } = "<b>The tesla gates have a timeout!</b>";
-
-        [Description("What should the normal Tesla Timout C.A.S.S.I.E announcement show?")]
-        public string TeslaTimeoutCassie { get; set; } = "The facility tesla gate. are disabled";
-
-        [Description("What should the normal Tesla Timout Broadcast show when the gates are being unlocked?")]
-        public string TeslaTimeoutEndingBroadcast { get; set; } = "<b>The tesla gates have no longer a timeout!</b>";
 
         [Description("What should the normal Tesla Timout C.A.S.S.I.E announcement show?")]
         public string TeslaTimeoutEndingCassie { get; set; } = "The facility tesla gate. are no longer disabled";
