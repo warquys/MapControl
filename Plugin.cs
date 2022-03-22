@@ -12,7 +12,7 @@ namespace MapControl
         SynapseMajor = 2,
         SynapseMinor = 6,
         SynapsePatch = 0,
-        Version = "v1.2.0"
+        Version = "v1.5.0"
         )]
     public class Plugin : AbstractPlugin
     {
